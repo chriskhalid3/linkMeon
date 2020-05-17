@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: May 15, 2020 at 01:52 PM
+-- Generation Time: Apr 29, 2020 at 08:01 PM
 -- Server version: 10.1.38-MariaDB
 -- PHP Version: 7.3.2
 
@@ -106,13 +106,6 @@ CREATE TABLE `profiles` (
   `dateUpdated` varchar(50) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
---
--- Dumping data for table `profiles`
---
-
-INSERT INTO `profiles` (`userId`, `pathName`, `tri`, `dateUpdated`) VALUES
-(9, '915960e39b842df52b7b458c9fe91b33e7.jpg', 1, '20-05-07');
-
 -- --------------------------------------------------------
 
 --
@@ -160,7 +153,7 @@ CREATE TABLE `users` (
 
 INSERT INTO `users` (`userId`, `firstName`, `lastName`, `username`, `userEmail`, `password`, `status`, `deleteis`, `profile`, `gender`, `country`, `profileDefault`, `changed`, `seculity_question`, `dateIn`, `dateOut`, `userTYpe`) VALUES
 (8, 'sezerano', 'fent', 'FentLeon', 'fent@gmail.com', '$2y$10$9Ha5nDlMjmK6lWAYLLSgie4QBc1GS82INlTwzZ4Pedy.NvTgIl6PC', 'offline', 0, '8475960e39b842df52b7b458c9fe91b33e7.jpg', 'Male', 'Rwanda', '0', 0, '$2y$10$qDrf70SS5Y/V6dHbMtNU8u7s5F.SVaDeWHSOs.JS3gG8MPK4joGSa', '20-04-03', '20-04-08', 'Student'),
-(9, 'sezerano', 'fent', 'FentUser', 'fentUser@gmail.com', '$2y$10$E0rf0FHTLHdR2PJ9zyvfqu8vEd1/qDiYJi9u5t7DckCGuocjvq/Qy', 'active', 0, '915960e39b842df52b7b458c9fe91b33e7.jpg', 'Male', 'Kenya', '0', 1, '$2y$10$ZBwPZsjGQAtYefdPFsrjTOZXk5Ew9CLk8cCXX8Z2ofQ0m26b.9D7W', '20-04-03', '20-04-29', 'Student'),
+(9, 'sezerano', 'fent', 'FentUser', 'fentUser@gmail.com', '$2y$10$E0rf0FHTLHdR2PJ9zyvfqu8vEd1/qDiYJi9u5t7DckCGuocjvq/Qy', 'offline', 0, 'avatar1.jpg', 'Male', 'Kenya', '1', 1, '$2y$10$ZBwPZsjGQAtYefdPFsrjTOZXk5Ew9CLk8cCXX8Z2ofQ0m26b.9D7W', '20-04-03', '20-04-29', 'Student'),
 (10, 'antoin', 'chris', 'khakid3', 'khalid3@gmail.com', '$2y$10$LNwbEApaSbcd7Jt6HOjCtuILK92JIgP/3r8ZYqX/r8IKAXePQn96y', 'offline', 0, 'avatar1.jpg', 'Male', 'Rwanda', '1', 0, '$2y$10$y5RFTlOXF1uzVC0N97zb/eEYV5gC/OksPiFaIuHcnj9rxq6Ug5wIu', '20-04-03', '', 'Student'),
 (11, 'sezerano', 'chris', 'chrisLon', 'lon@gmail.com', '$2y$10$Lz6wf5CEvPx99eIxj8IKMOw.y4aMFhwDrutGvPcpCz47CcdqdosxO', 'offline', 0, 'avatar1.jpg', 'Male', 'Kenya', '1', 0, '$2y$10$aT8ETMEAUwQ0w3AEo2la3uXyL9H3IXZLLC.7L01ai/Tc3YVCBjoIW', '20-04-08', '20-04-15', 'Student'),
 (12, 'baby', 'babys', 'chrisLon1', 'lon1@gmail.com', '$2y$10$cZaTCAQmubaH.ApG8uKEHeEbCXtpk6SvbVbegoVkXRLgQKNMTQS2O', 'offline', 0, 'avatar2.jpg', 'Male', 'Rwanda', '1', 0, '$2y$10$kfedgQp.6WUi5b2egYvIdugKgMEqF9.etOdMXlMgdH8kmcyXdmnFm', '20-04-08', '20-04-09', 'Student'),
@@ -253,7 +246,7 @@ ALTER TABLE `postcollaction`
 -- AUTO_INCREMENT for table `profiles`
 --
 ALTER TABLE `profiles`
-  MODIFY `tri` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `tri` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `topics`
