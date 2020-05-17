@@ -98,13 +98,13 @@ cursor:pointer;
 }
 
 </style>
-<title> <?php echo $_SESSION['username']; ?> </title>
+<title> linkOn - <?php echo $_SESSION['username']; ?> </title>
 </head>   
 <body>
 <!-- navigation  -->
 <nav class="navbars navbars-expand-sm sticky-top" >
   <div class="logo">
-    <h4><a style="color: #4bacca;text-transform:uppercase; text-decoration:none;" href="index.php"> SmashLight </a></h4>
+    <h4><a style="color: #4bacca;text-transform:uppercase; text-decoration:none;" href="index.php">LinkOn</a></h4>
   </div>
   <ul class="navbars-nav">
 
