@@ -9,7 +9,7 @@
  <?php  if(isset($_POST['logout'])){
          $lead->logMeOut($_SESSION['userId']);
       } ?>
- <title> <?php echo $_SESSION['username']; ?> </title>
+ 
   </head>   
   <body>
   
@@ -111,11 +111,15 @@
                                if(!$classalreadyIn){?>
                                       <span id="Newcourse" class="m-2"> class  <i class="fas fa-book text-info "></i></span>
                                   <?php  }
+                                  else{ ?>
+
+                                            <span id="Newcourse" class="m-2"> courses  <i class="fas fa-book text-info "></i></span>
+                                <?php  }
                                    ?>                              
                                
                                   
                                 <?php }else{ ?>
-                                    <span id="Newcourse" class="m-2"> Challenges  <i class="fas fa-plus text-info "></i></span>
+                                    <span id="Newcourse" class="m-2"> challenges  <i class="fas fa-plus text-info "></i></span>
                                 <?php }?>
                                   </div>
                                                        

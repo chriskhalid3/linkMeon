@@ -96,6 +96,13 @@ opacity:0;
 color:gray;
 cursor:pointer;
 }
+#addNewCourse{
+  cursor:pointer;
+}
+#addNewCourse:hover{
+  cursor:pointer;
+  color:#f8f9dc!important;
+}
 
 </style>
 <title> linkOn - <?php echo $_SESSION['username']; ?> </title>

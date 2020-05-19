@@ -30,7 +30,76 @@ echo'
 
 ';}
 else{
-echo '<div class="alert alert-info">you have class</div> ';
+    
+    $noCourseYet = $lead->courseCheck();
+if(!$noCourseYet){
+
+ echo '<div class="col-12">
+    
+
+<div class="col-12 mt-3  col-sm-12 col-md-12 col-lg-12 mb-4">
+<div class="card border-left-custom-top bg-info shadow h-100 py-2">
+  <div class="card-body" id = "addNewCourse" >
+    <div class="row no-gutters align-items-center">
+      <div class="col mr-2">
+        <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">Make</div>
+        <div class="row no-gutters align-items-center">
+          <div class="col-auto">
+            <div class=" mb-0 mr-3 font-weight-bold text-default" ><i class="text-gray-100 fa-2x "  >New course</i></div>
+          </div>
+          <div class="col">
+            <div class="mr-2">
+              <div class="text-xs" > </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-auto">
+        <i class="fas fa-plus fa-2x text-gray-200"></i>
+      </div>
+    </div>
+  </div>
+</div>
+
+    </div>
+
+</div> ';
+
+    }
+    else{
+
+        echo '<div class="col-12">
+    
+
+        <div class="col-12 mt-3  col-sm-12 col-md-12 col-lg-6 mb-4">
+        <div class="card border-left-info shadow h-100 py-2">
+          <div class="card-body">
+            <div class="row no-gutters align-items-center">
+              <div class="col mr-2">
+                <div class="text-xs font-weight-bold text-info text-uppercase mb-1">Java</div>
+                <div class="row no-gutters align-items-center">
+                  <div class="col-auto">
+                    <div class=" mb-0 mr-3 font-weight-bold text-info"><a class="text-info" href="#">Study</a></div>
+                  </div>
+                  <div class="col">
+                    <div class="mr-2">
+                      <div class="text-xs" >classmates <p class="text-info d-inline">50</p> </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="col-auto">
+                <i class="fas fa-clipboard-list fa-2x text-gray-300"></i>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+            </div>
+        
+        </div> ';
+    }
+
 }
 
 }elseif(isset($_SESSION['username']) && isset($_POST['newCourse']) && $_SESSION['userType'] == 'Student'){

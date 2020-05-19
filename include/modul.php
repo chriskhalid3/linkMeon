@@ -271,7 +271,7 @@ public function logMeOut($userId){
    $sql  = "UPDATE users SET status = 'offline' , dateOut = :dateOut where userId = :usid";
    $stmt = $this->conn->prepare($sql);
    $stmt->execute([':usid'=>$userId,':dateOut'=>$dateOut]);
-    
+   session_start();  
     session_destroy(); 
     session_abort();
     session_start();
@@ -281,7 +281,7 @@ public function logMeOut($userId){
 
 // session destroy for unauthorised
 public function unauthorized(){
-  
+   session_start();
     session_destroy(); 
     session_abort();
     session_start();
@@ -289,11 +289,11 @@ public function unauthorized(){
     exit();
  }
  public function unauthorizedNewDir(){
-  
+   session_start();
    session_destroy(); 
    session_abort();
    session_start();
-   header('location:../signin.php');
+   echo'<script>window.open("../signin.php","_self")</script>';
    exit();
 }
 //profile retrive
@@ -635,17 +635,8 @@ public  function userModifyc($userId,$username,$fname,$lname){
    }
 
 }
-public function classcreated($id){
-  $sql ="SELECT * from class where userId = :userid";
-  $stmt = $this->conn->prepare($sql);
-  $stmt->execute([':userid'=>$id]);
-  $classIn = $stmt->rowCount();
-  if($classIn){
-      return true;
-  }else{
-     return false;
-  }
-} 
+
+
 
 public function  addClass($classLeader,$className,$discription,$instruction){
   $len = 3;
@@ -682,6 +673,62 @@ public function  addClass($classLeader,$className,$discription,$instruction){
        }
      }
   }
+  
+}
+
+public function classcreated($id){
+   $sql  =  "SELECT * from class where userId = :userid";
+   $stmt = $this->conn->prepare($sql);
+   $stmt->execute([':userid'=>$id]);
+   $classIn = $stmt->rowCount();
+   if($classIn){
+       return true;
+   }else{
+      return false;
+   }
+ } 
+
+ public function courseCheck(){
+ 
+   $sql  = 'SELECT course.* , class.*  from course join class using(classID) where userId = :classOwner';
+   $stmt = $this->conn->prepare($sql);
+   $stmt->execute([':classOwner' => $_SESSION['userId']]);
+   $noCourseYet = $stmt->rowCount();
+   if($noCourseYet){
+      return true;      
+   }else{
+      return false; 
+   }
+   
+
+}
+
+//require more validation 
+
+public function addCourse($courseName,$comment,$description,$instruction,$goal){
+   if(!empty($courseName) && !empty($comment) && !empty($description) && !empty($instruction) && !empty($goal)){
+
+      $sql  = 'SELECT course.* , class.*  from course join class using(classID) where userId = :classOwner';
+      $stmt = $this->conn->prepare($sql);
+      $stmt->execute([':classOwner' => $_SESSION['userId']]);
+      $row  = $stmt->fetchAll();
+      foreach($row as $rows){
+         $courseExist  = $courseName == $rows['courseName'];
+         if($courseExist){
+          echo'<script>alert("You have already created that course or coursename exist")</script>';
+         }else{
+
+         }
+      }  
+   }
+   else{
+      echo'<script>alert("You have empty field ")</script>';
+   }
+   
+
+}
+
+public function coursePresenter(){
   
 }
 

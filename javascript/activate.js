@@ -245,9 +245,35 @@ if(chat !== null){
     });
 }
 
-
-
 };
 paginationLeader();
-
+const pushCourse = () => {
+   
+         var pageleader = document.getElementById('user-edit-form');
+       
+     
+        pageleader.addEventListener('click',()=>{
+            var addNewCourse  = document.getElementById("addNewCourse");  
+            addNewCourse.addEventListener('click',()=>{
+                  
+                $.ajax({
+                    url:'include/new_course_form.php',
+                    method:'POST',
+                    data:{
+                        ins:1  
+                    },
+                    success:(data)=>{
+                         pageleader.innerHTML = data                                   
+                    },
+                    dataType:'text'
+                });
+            });
+        })  
+                       
+           
+      
+      
+          
+}
+pushCourse();
 
