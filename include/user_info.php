@@ -31,7 +31,10 @@ if(isset($_POST["update"])){
         
     }
     else{
-     echo '<script>window.open("../signin.php")</script>';
+      if(!empty($_SESSION['userId'])){
+        $lead->logMeOut($_SESSION['userId']);
+        }
+    $lead->unauthorizedNewDir();
     }
 
  ?>

@@ -10,7 +10,10 @@ if(isset($_POST['claimedSearch']) && !empty($_POST['claimedSearch']) && isset($_
  $lead->searchUser($searchValue,$_SESSION['userId']);
 
 }else{
-$lead->unauthorizedNewDir();
+    if(!empty($_SESSION['userId'])){
+        $lead->logMeOut($_SESSION['userId']);
+        }
+    $lead->unauthorizedNewDir();
 
 }
 

@@ -79,9 +79,6 @@
     });
    
     </script>
-  <script type='text/javascript'>
-  $('.overflow-x-true').animate({
-      scrollTop: $('.overflow-x-true').get(0).scrollHeight},1000);
- </script>
+
 </body>
 </html>

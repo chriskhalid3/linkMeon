@@ -98,6 +98,7 @@ cursor:pointer;
 }
 #addNewCourse{
   cursor:pointer;
+  outline:none;
 }
 #addNewCourse:hover{
   cursor:pointer;

@@ -76,7 +76,7 @@ class conn {
       }
       // if password does not  match
       else{
-         header('location:signin.php?error=your%20password%20is%20invalid');
+         header('location:signin.php?error=your%20password%20is%20wrong');
          exit();
             }
 
@@ -271,7 +271,7 @@ public function logMeOut($userId){
    $sql  = "UPDATE users SET status = 'offline' , dateOut = :dateOut where userId = :usid";
    $stmt = $this->conn->prepare($sql);
    $stmt->execute([':usid'=>$userId,':dateOut'=>$dateOut]);
-   session_start();  
+    session_start();  
     session_destroy(); 
     session_abort();
     session_start();
@@ -564,7 +564,7 @@ public function searchUser($searchTarget,$userId){
                  </div>
                  <div class="font-weight-bold">
                    <div class="text-gray-600 small " id="response"><li>'.$rows['username'].'</li></div>          
-                <div class="small text-gray-500"> <i class="fas fa-user-circle text-'.$rows['status'].'">'.$rows['status'].'</i></div>
+                <div class="small "> <i class="fas fa-user-circle text-'.$rows['status'].'" >'.$rows['status'].'</i></div>
 
               </div>
                </a>
@@ -708,19 +708,33 @@ public function classcreated($id){
 public function addCourse($courseName,$comment,$description,$instruction,$goal){
    if(!empty($courseName) && !empty($comment) && !empty($description) && !empty($instruction) && !empty($goal)){
 
-      $sql  = 'SELECT course.* , class.*  from course join class using(classID) where userId = :classOwner';
+      $sql  = 'SELECT * from class  where userId = :classOwner';
       $stmt = $this->conn->prepare($sql);
       $stmt->execute([':classOwner' => $_SESSION['userId']]);
-      $row  = $stmt->fetchAll();
-      foreach($row as $rows){
-         $courseExist  = $courseName == $rows['courseName'];
-         if($courseExist){
-          echo'<script>alert("You have already created that course or coursename exist")</script>';
-         }else{
-
-         }
-      }  
+      $row  = $stmt->fetch();
+  
+        
+            if(strlen($courseName) < 5){
+               echo'<script>alert("too low !  course name should be more than what you provided ")</script>';
+            }
+            elseif(strlen($comment) < 5 ){
+               echo'<script>alert("too low !  course comment should be more 200 words")</script>';
+            }else{
+               $complit = '';
+               $date = date('y-m-d');
+               $sql  = "INSERT into course values (:id,:classid,:courseNam,:datecreated,:statu,:deletStatus,:comment,:instruction,:discription,:goal)";
+               $stmt = $this->conn->prepare($sql);
+              
+               if( $stmt->execute([':id'=>$complit,':classid'=>$row['classID'],':courseNam'=>$courseName,':datecreated'=>$date,':statu'=>$complit,':deletStatus'=>$complit,':comment'=>$comment,':instruction'=>$instruction,':discription'=>$description,':goal'=>$goal])){
+               echo '<div  class="alert alert-success text-center" > inserted </div>';
+               } 
+               else{
+                  echo '<div  class="alert alert-danger text-center" > not inserted </div>';
+                 }
+            }
+      
    }
+ 
    else{
       echo'<script>alert("You have empty field ")</script>';
    }
@@ -730,8 +744,118 @@ public function addCourse($courseName,$comment,$description,$instruction,$goal){
 
 public function coursePresenter(){
   
+   $sql  = 'SELECT course.*  ,mid(course.courseName,1,1) as "short" from course join class using(classID) where userId = :classOwner';
+   $stmt = $this->conn->prepare($sql);
+   $stmt->execute([':classOwner' => $_SESSION['userId']]);
+   $CourseYet = $stmt->rowCount();
+   if($CourseYet){
+      $row = $stmt->fetchAll();
+    echo '<div class=" d-lg-flex d-xl-flex ">';
+     foreach($row as $rows){
+     echo'
+     
+     <div class="col-12  col-sm-12 col-md-12 col-lg-6 mb-4">
+     <div class="card border-left-info shadow h-100 py-2">
+       <div class="card-body">
+         <div class="row no-gutters align-items-center">
+           <div class="col mr-2">
+             <div class="text-xs font-weight-bold text-info text-uppercase mb-1">'. $rows['courseName'] .'</div>
+             <div class="row no-gutters align-items-center">
+               <div class="col-auto">
+                 <div class=" mb-0 mr-3 font-weight-bold text-info"><a class="text-info" href="?course=regId">Teach</a></div>
+               </div>
+               <div class="col">
+                 <div class="mr-2">
+                   <div class="text-xs" >classmates <p class="text-info d-inline">50</p> </div>
+                 </div>
+               </div>
+             </div>
+           </div>
+           <div class="col-auto">
+             <span class=" fa-2x   text-info text-uppercase">'.$rows['short'].'</span>
+           </div>
+         </div>
+       </div>
+     </div>
+     
+         </div>
+     ';
+     }
+     echo '</div>';  
+     if($CourseYet <= 5 ){
+
+      echo '<div class="col-12">
+    
+
+      <div class="col-12 mt-3  col-sm-12 col-md-12 col-lg-12 mb-4">
+      <div class="card border-left-custom-top bg-info shadow h-100 py-2">
+        <div class="card-body" id = "addNewCourse" >
+          <div class="row no-gutters align-items-center">
+            <div class="col mr-2">
+              <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">Make</div>
+              <div class="row no-gutters align-items-center">
+                <div class="col-auto">
+                  <div class=" mb-0 mr-3 font-weight-bold text-default" ><i class="text-gray-100 fa-1x ">New course</i></div>
+                </div>
+                <div class="col">
+                  <div class="mr-2">
+                    <div class="text-xs" > </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-auto">
+              <i class="fas fa-plus fa-2x text-gray-200"></i>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+          </div>
+      
+      </div> ';
+      
+     }  else{
+        
+ echo '<div class="col-12">
+    
+
+ <div class="col-12 mt-3  col-sm-12 col-md-12 col-lg-12 mb-4">
+ <div class="card border-left-custom-top bg-info shadow h-100 py-2">
+   <div class="card-body" id = "addNewCourse" >
+     <div class="row no-gutters align-items-center">
+       <div class="col mr-2">
+         <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">Make</div>
+         <div class="row no-gutters align-items-center">
+           <div class="col-auto">
+             <div class=" mb-0 mr-3 font-weight-bold text-default" ><i class="text-gray-100 fa-2x " >disactive one course to add onather one</i></div>
+           </div>
+           
+         </div>
+       </div>
+       <div class="col-auto">
+         <i class="fas fa-plus fa-2x text-gray-200"></i>
+       </div>
+     </div>
+   </div>
+ </div>
+ 
+     </div>
+ 
+ </div> ';
+ 
+     }
+   }else{
+      return false; 
+   }
+   
 }
 
+public function joinClass(){
+
+   $classSql = '' ;
+
+}
 
 }
 

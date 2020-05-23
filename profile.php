@@ -60,9 +60,9 @@
                               <?php  }                             
                               ?>
                                
-             <div class="row">
+             <div class="row p-2">
                  <!-- for plofile -->
-                  <div class="col-6 col-sm-6 col-md-4  col-lg-4  mt-4 p-2 text-center ">
+                  <div class="col-12 col-sm-12 col-md-12  col-lg-5   text-center ">
                         <div class=" ml-2">
                                 <?php $lead->profileDisplay($_SESSION['userId']);
                                 
@@ -102,7 +102,8 @@
                       </div>
                       <!-- end of prolife place -->
                       <!-- form place -->
-                      <div  class="col-12 col-sm-12 col-md-6 col-lg-8 p-4 ">
+                      <div  class="col-12 col-sm-12 col-md-12 col-lg-7  ">
+
                       <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
                                 <div class="ml-3 d-flex  font-weight-bold text-primary">
                                 <span id="editInfo" class=" m-2"> Edit<i class="fas fa-info text-info ml-1 "></i></span>
@@ -125,7 +126,7 @@
                                                        
                               </div>
                     
-                          <div id="user-edit-form"  class="col mt-2">
+                          <div id="user-edit-form"  class=" mt-2">
                                    <?php $lead->userFormWithValue($_SESSION['userId'],$_SESSION['email']);
                                                              
                                    ?>
@@ -156,7 +157,16 @@
                                     $classLeader = $_SESSION['userId'];
                                     $lead->addClass($classLeader,$className,$discription,$instruction);    
                                 }
-                                    ?>
+                                   if(isset($_POST['addcourse'])){
+                                    $coursename = $_POST['courseName'];
+                                    $discription  = $_POST['discription'];
+                                    $goal           = $_POST['goal'];
+                                    $instruction     = $_POST['instructions'];
+                                    $comment          = $_POST['comment'];     
+                                    $lead->addCourse($coursename,$comment,$discription,$instruction,$goal);
+                                   }
+                                   
+                                   ?>
                                     
                             </div>
                            

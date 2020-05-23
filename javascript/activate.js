@@ -144,7 +144,7 @@ document.addEventListener('DOMContentLoaded',()=>{
   
     $.ajax({
         
-        url:'include/load_course.php',
+        url:'include/load_class.php',
         method:'POST',
         data:{
          war:1
@@ -164,7 +164,7 @@ document.addEventListener('DOMContentLoaded',()=>{
      course.style.color = 'rgb(13, 130, 226)';
       $.ajax({
         
-        url:'include/load_course.php',
+        url:'include/load_class.php',
         method:'POST',
         data:{
          war:1
@@ -251,7 +251,9 @@ const pushCourse = () => {
    
          var pageleader = document.getElementById('user-edit-form');
        
-     
+     if(pageleader !== null){
+
+   
         pageleader.addEventListener('click',()=>{
             var addNewCourse  = document.getElementById("addNewCourse");  
             addNewCourse.addEventListener('click',()=>{
@@ -269,11 +271,8 @@ const pushCourse = () => {
                 });
             });
         })  
-                       
-           
-      
-      
-          
+    }
+    
 }
 pushCourse();
 
