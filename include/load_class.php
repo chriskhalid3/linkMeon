@@ -3,7 +3,10 @@
 include 'modul.php';
 $lead =  new conn();
 session_start();
+
+
 if(isset($_POST['war']) && isset($_SESSION['userId'])){
+
     echo '
     <div class="col-6 mt-3  col-sm-6 col-md-12 col-lg-12 mb-4">
   <div class="card border-left-info shadow h-100 py-2">

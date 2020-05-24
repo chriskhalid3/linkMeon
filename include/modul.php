@@ -708,12 +708,35 @@ public function classcreated($id){
 public function addCourse($courseName,$comment,$description,$instruction,$goal){
    if(!empty($courseName) && !empty($comment) && !empty($description) && !empty($instruction) && !empty($goal)){
 
-      $sql  = 'SELECT * from class  where userId = :classOwner';
+      $sql  = "SELECT concat(mid(class.datecreated,1,2),'/#',mid(class.datecreated,7,8),'/^',mid(users.username,1,5),'/^',class.classname) as courseCode ,class.classID from class  join users using(userId) where userId = :classOwner";
       $stmt = $this->conn->prepare($sql);
       $stmt->execute([':classOwner' => $_SESSION['userId']]);
       $row  = $stmt->fetch();
-  
+      $date = date("h/i"); 
+      $randme = rand(1,4);
+      $code ='&%3';
+      if($randme = 1){
+         $code = '#^#%';
+      }
+      elseif($randme = 2){
+         $code = '%^#%';
+      }
+      elseif($randme = 3){
+         $code = '%^#%';
+      }
+      else{
+         $code = '^#^#';
+      }
+      $rand = rand(1,5000);
+      $fullConcat = $row['courseCode'].$date.$rand.$code;
+      $courseCode = trim($fullConcat);
         
+      //if the course exist
+      $sqlExist  = 'SELECT * FROM course join class using (classId) join users using (userId) where userId = :id and course.courseName = :cname ';
+      $stmtExist = $this->conn->prepare($sqlExist);
+      $stmtExist->execute([':id'=>$_SESSION['userId'],':cname'=>$courseName]);
+      $courseExist = $stmtExist->rowCount();
+         if(!$courseExist){
             if(strlen($courseName) < 5){
                echo'<script>alert("too low !  course name should be more than what you provided ")</script>';
             }
@@ -722,19 +745,23 @@ public function addCourse($courseName,$comment,$description,$instruction,$goal){
             }else{
                $complit = '';
                $date = date('y-m-d');
-               $sql  = "INSERT into course values (:id,:classid,:courseNam,:datecreated,:statu,:deletStatus,:comment,:instruction,:discription,:goal)";
+               $sql  = "INSERT into course values (:id,:classid,:courseNam,:datecreated,:statu,:deletStatus,:comment,:instruction,:discription,:goal,:code)";
                $stmt = $this->conn->prepare($sql);
               
-               if( $stmt->execute([':id'=>$complit,':classid'=>$row['classID'],':courseNam'=>$courseName,':datecreated'=>$date,':statu'=>$complit,':deletStatus'=>$complit,':comment'=>$comment,':instruction'=>$instruction,':discription'=>$description,':goal'=>$goal])){
+               if( $stmt->execute([':id'=>$complit,':classid'=>$row['classID'],':courseNam'=>$courseName,':datecreated'=>$date,':statu'=>$complit,':deletStatus'=>$complit,':comment'=>$comment,':instruction'=>$instruction,':discription'=>$description,':goal'=>$goal,':code'=>$fullConcat])){
                echo '<div  class="alert alert-success text-center" > inserted </div>';
                } 
                else{
-                  echo '<div  class="alert alert-danger text-center" > not inserted </div>';
+                  echo '<div  class="alert alert-danger text-center" > not created </div>';
                  }
             }
       
    }
- 
+   else{
+      echo'<script>alert("Course exist ","_self")</script>';
+   }
+    
+}
    else{
       echo'<script>alert("You have empty field ")</script>';
    }
@@ -744,17 +771,23 @@ public function addCourse($courseName,$comment,$description,$instruction,$goal){
 
 public function coursePresenter(){
   
-   $sql  = 'SELECT course.*  ,mid(course.courseName,1,1) as "short" from course join class using(classID) where userId = :classOwner';
+   $sql  = 'SELECT course.* , mid(course.courseName,1,1) as "short" ,class.classId from course join class using(classID) where userId = :classOwner';
    $stmt = $this->conn->prepare($sql);
    $stmt->execute([':classOwner' => $_SESSION['userId']]);
    $CourseYet = $stmt->rowCount();
    if($CourseYet){
       $row = $stmt->fetchAll();
-    echo '<div class=" d-lg-flex d-xl-flex ">';
+      
+    echo '<div class=" col-12 ">';
      foreach($row as $rows){
-     echo'
+        $clsmate = "SELECT* FROM coursetracks  join course using(courseId) join class using(classId) where classId = :classId and courseId = :courseId";
+        $stmtSql = $this->conn->prepare($clsmate);
+        $stmtSql->execute([':classId'=>$rows['classId'] ,':courseId'=> $rows['courseId'] ]);
+        $classmate = $stmtSql->rowCount(); 
+         
+      echo'
      
-     <div class="col-12  col-sm-12 col-md-12 col-lg-6 mb-4">
+     <div class="col-12 mb-4">
      <div class="card border-left-info shadow h-100 py-2">
        <div class="card-body">
          <div class="row no-gutters align-items-center">
@@ -762,11 +795,11 @@ public function coursePresenter(){
              <div class="text-xs font-weight-bold text-info text-uppercase mb-1">'. $rows['courseName'] .'</div>
              <div class="row no-gutters align-items-center">
                <div class="col-auto">
-                 <div class=" mb-0 mr-3 font-weight-bold text-info"><a class="text-info" href="?course=regId">Teach</a></div>
+                 <div class=" mb-0 mr-3 font-weight-bold text-info"><a class="text-info" href="?course='.$rows['courseCode'].'">Teach</a></div>
                </div>
                <div class="col">
                  <div class="mr-2">
-                   <div class="text-xs" >classmates <p class="text-info d-inline">50</p> </div>
+                   <div class="text-xs" >classmates <p class="text-info d-inline">'.$classmate.'</p> </div>
                  </div>
                </div>
              </div>
@@ -851,11 +884,15 @@ public function coursePresenter(){
    
 }
 
-public function joinClass(){
 
-   $classSql = '' ;
+public function classPresenter(){
 
 }
+
+public function joincourse(){
+
+}
+
 
 }
 
