@@ -778,7 +778,7 @@ public function coursePresenter(){
    if($CourseYet){
       $row = $stmt->fetchAll();
       
-    echo '<div class=" col-12 ">';
+   
      foreach($row as $rows){
         $clsmate = "SELECT* FROM coursetracks  join course using(courseId) join class using(classId) where classId = :classId and courseId = :courseId";
         $stmtSql = $this->conn->prepare($clsmate);
@@ -787,7 +787,7 @@ public function coursePresenter(){
          
       echo'
      
-     <div class="col-12 mb-4">
+     <div class="col-12 mt-3  col-sm-12 col-md-6 col-lg-6 mb-4"">
      <div class="card border-left-info shadow h-100 py-2">
        <div class="card-body">
          <div class="row no-gutters align-items-center">
@@ -795,7 +795,7 @@ public function coursePresenter(){
              <div class="text-xs font-weight-bold text-info text-uppercase mb-1">'. $rows['courseName'] .'</div>
              <div class="row no-gutters align-items-center">
                <div class="col-auto">
-                 <div class=" mb-0 mr-3 font-weight-bold text-info"><a class="text-info" href="?course='.$rows['courseCode'].'">Teach</a></div>
+                 <div class=" mb-0 mr-3 font-weight-bold text-info"><a class="text-info" href="index.php?course='.$rows['courseCode'].'">Teach</a></div>
                </div>
                <div class="col">
                  <div class="mr-2">
@@ -814,10 +814,10 @@ public function coursePresenter(){
          </div>
      ';
      }
-     echo '</div>';  
+    
      if($CourseYet <= 5 ){
 
-      echo '<div class="col-12">
+      echo '
     
 
       <div class="col-12 mt-3  col-sm-12 col-md-12 col-lg-12 mb-4">
@@ -846,16 +846,16 @@ public function coursePresenter(){
       
           </div>
       
-      </div> ';
+      ';
       
      }  else{
         
- echo '<div class="col-12">
+ echo '
     
 
  <div class="col-12 mt-3  col-sm-12 col-md-12 col-lg-12 mb-4">
  <div class="card border-left-custom-top bg-info shadow h-100 py-2">
-   <div class="card-body" id = "addNewCourse" >
+   <div class="card-body">
      <div class="row no-gutters align-items-center">
        <div class="col mr-2">
          <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">Make</div>
@@ -874,8 +874,7 @@ public function coursePresenter(){
  </div>
  
      </div>
- 
- </div> ';
+  ';
  
      }
    }else{
@@ -884,6 +883,134 @@ public function coursePresenter(){
    
 }
 
+
+
+public function coursePresenterIndex(){
+  
+   $sql  = 'SELECT course.* , mid(course.courseName,1,1) as "short" ,class.classId from course join class using(classID) where userId = :classOwner';
+   $stmt = $this->conn->prepare($sql);
+   $stmt->execute([':classOwner' => $_SESSION['userId']]);
+   $CourseYet = $stmt->rowCount();
+   if($CourseYet){
+      $row = $stmt->fetchAll();
+      
+    
+     foreach($row as $rows){
+        $clsmate = "SELECT* FROM coursetracks  join course using(courseId) join class using(classId) where classId = :classId and courseId = :courseId";
+        $stmtSql = $this->conn->prepare($clsmate);
+        $stmtSql->execute([':classId'=>$rows['classId'] ,':courseId'=> $rows['courseId'] ]);
+        $classmate = $stmtSql->rowCount(); 
+         
+      echo'
+     
+     <div class="col-6 mt-3  col-sm-6 col-md-12 col-lg-12 mb-4"">
+     <div class="card border-left-info shadow h-100 py-2">
+       <div class="card-body">
+         <div class="row no-gutters align-items-center">
+           <div class="col mr-2">
+             <div class="text-xs font-weight-bold text-info text-uppercase mb-1">'. $rows['courseName'] .'</div>
+             <div class="row no-gutters align-items-center">
+               <div class="col-auto">
+                 <div class=" mb-0 mr-3 font-weight-bold text-info"><a class="text-info" href="index.php?course='.$rows['courseCode'].'">Teach</a></div>
+               </div>
+               <div class="col">
+                 <div class="mr-2">
+                   <div class="text-xs" >classmates <p class="text-info d-inline">'.$classmate.'</p> </div>
+                 </div>
+               </div>
+             </div>
+           </div>
+           <div class="col-auto">
+             <span class=" fa-2x   text-info text-uppercase">'.$rows['short'].'</span>
+           </div>
+         </div>
+       </div>
+     </div>
+     
+         </div>
+     ';
+     }
+    
+   
+   }else{
+      return false; 
+   }
+   
+}
+
+public function courseFollowed(){
+   //course  followed 
+   $live = 1;
+   $sql ='SELECT course.courseid,course.courseName,mid(course.courseName,1,1) as "short" ,course.courseCode ,class.classId  FROM coursetracks join course using(courseId) join class using(classId) where coursetracks.userId = :id and coursetracks.live = :live';
+   $costmt = $this->conn->prepare($sql);
+   $costmt->execute([':id'=>$_SESSION['userId'],':live'=>$live]);
+   $rowTrack = $costmt->fetchAll();
+   $courseTrackExist = $costmt->rowCount();
+   if($courseTrackExist){
+      foreach($rowTrack as $rowTracks){
+         $clsmate = "SELECT* FROM coursetracks  join course using(courseId) join class using(classId) where classId = :classId and courseId = :courseId";
+         $stmtSql = $this->conn->prepare($clsmate);
+         $stmtSql->execute([':classId'=>$rowTracks['classId'] ,':courseId'=> $rowTracks['courseid'] ]);
+         $classmate = $stmtSql->rowCount(); 
+
+       echo'
+       <div class="col-6 mt-3  col-sm-6 col-md-12 col-lg-12 mb-4">
+    <div class="card border-left-info shadow h-100 py-2">
+      <div class="card-body">
+        <div class="row no-gutters align-items-center">
+          <div class="col mr-2">
+            <div class="text-xs font-weight-bold text-info text-uppercase mb-1">'.$rowTracks['courseName'].'</div>
+            <div class="row no-gutters align-items-center">
+              <div class="col-auto">
+                <div class=" mb-0 mr-3 font-weight-bold text-info"><a class="text-info" href="?course='.$rowTracks['courseCode'].'">Enroll</a></div>
+              </div>
+              <div class="col">
+                <div class="mr-2">
+                  <div class="text-xs" >classmates <p class="text-info d-inline">'. $classmate .'</p> </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-auto">
+            <i class=" fa-2x text-gray-300"> '.$rowTracks['short'].' </i>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+
+       ';
+      }
+   }else{
+      echo'
+      
+      <div class="col-12 m-2">
+      <div class="card border-left-custom-top bg-info  h-100 ">
+        <div class="card-body">
+          <div class="row no-gutters align-items-center">
+            <div class="col mr-2">              
+              <div class="row no-gutters align-items-center">
+                <div class="col-auto">
+                  <div class=" mb-0 mr-3 font-weight-bold text-default" ><i class="text-gray-200 " >You need to join some courses so that you can attend one  </i></div>
+                </div>
+                
+              </div>
+            </div>
+            <div class="col-auto">
+              <i class="fas fa-info-circle fa-3x text-gray-100"></i>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+          </div>
+           ';
+   } 
+   
+   //classmate  
+
+}
 
 public function classPresenter(){
 

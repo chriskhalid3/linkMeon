@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: May 20, 2020 at 08:14 PM
+-- Generation Time: May 27, 2020 at 02:35 AM
 -- Server version: 10.1.38-MariaDB
 -- PHP Version: 7.3.2
 
@@ -42,7 +42,8 @@ CREATE TABLE `class` (
 --
 
 INSERT INTO `class` (`classID`, `userId`, `className`, `dateCreated`, `description`, `instruction`) VALUES
-(1, 15, 'mental health', '20-05-18', 'we will dsgn ', 'try to folow and ask\r\n');
+(1, 15, 'mental health', '20-05-18', 'we will dsgn ', 'try to folow and ask\r\n'),
+(2, 16, 'leano', '20-05-21', 'sdfjklqwertyuioyansdjfuasdbkfbaksudyfa,mndbfkauydf', 'tears');
 
 -- --------------------------------------------------------
 
@@ -51,23 +52,17 @@ INSERT INTO `class` (`classID`, `userId`, `className`, `dateCreated`, `descripti
 --
 
 CREATE TABLE `classlike` (
-  `likeId` int(11) NOT NULL,
-  `classID` int(11) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `classtracks`
---
-
-CREATE TABLE `classtracks` (
-  `trackId` int(11) NOT NULL,
+  `likeid` int(11) NOT NULL,
   `classID` int(11) DEFAULT NULL,
-  `userId` int(11) DEFAULT NULL,
-  `dateTracked` varchar(50) DEFAULT NULL,
-  `live` int(11) DEFAULT '1'
+  `userId` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `classlike`
+--
+
+INSERT INTO `classlike` (`likeid`, `classID`, `userId`) VALUES
+(1, 2, 11);
 
 -- --------------------------------------------------------
 
@@ -85,15 +80,40 @@ CREATE TABLE `course` (
   `comment` varchar(300) NOT NULL,
   `instruction` varchar(300) DEFAULT NULL,
   `discription` varchar(400) DEFAULT NULL,
-  `goal` varchar(400) DEFAULT NULL
+  `goal` varchar(400) DEFAULT NULL,
+  `courseCode` varchar(50) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `course`
 --
 
-INSERT INTO `course` (`courseId`, `classID`, `courseName`, `datecreated`, `status`, `deleteStatus`, `comment`, `instruction`, `discription`, `goal`) VALUES
-(1, 1, 'health science', '20-05-19', 0, 0, 'qwertyuiopasdfjkl;Zxcvbnm', 'qwertyuiopasdfjklzxcvbnm', 'asdfjklqwertyuiopzxcvbnm', 'qwertyuiopasdfjklzxcvbnm');
+INSERT INTO `course` (`courseId`, `classID`, `courseName`, `datecreated`, `status`, `deleteStatus`, `comment`, `instruction`, `discription`, `goal`, `courseCode`) VALUES
+(6, 1, 'learn', '20-05-24', 0, 0, 'wertyfjyui', 'sdfxcvbndfj', 'qwertyuiasdfj', 'dfjjunikui', '20.18.dellu.mental health06:182813#^#%'),
+(7, 1, 'Rich to the master key ', '20-05-24', 0, 0, 'qwertyu', 'qwertyui', 'qweryutu', 'qwertyui', '20/#18/^dellu/^mental health06/523024#^#%');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `coursetracks`
+--
+
+CREATE TABLE `coursetracks` (
+  `trckid` int(11) NOT NULL,
+  `courseId` int(11) DEFAULT NULL,
+  `userId` int(11) DEFAULT NULL,
+  `dateTracked` varchar(50) DEFAULT NULL,
+  `live` int(11) DEFAULT '1'
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `coursetracks`
+--
+
+INSERT INTO `coursetracks` (`trckid`, `courseId`, `userId`, `dateTracked`, `live`) VALUES
+(1, 7, 9, '20-05-18', 1),
+(2, 7, 9, '2020', 1),
+(3, 6, 9, '2020', 1);
 
 -- --------------------------------------------------------
 
@@ -177,13 +197,15 @@ CREATE TABLE `users` (
 
 INSERT INTO `users` (`userId`, `firstName`, `lastName`, `username`, `userEmail`, `password`, `status`, `deleteis`, `profile`, `gender`, `country`, `profileDefault`, `changed`, `seculity_question`, `dateIn`, `dateOut`, `userTYpe`) VALUES
 (8, 'sezerano', 'fent', 'FentLeon', 'fent@gmail.com', '$2y$10$9Ha5nDlMjmK6lWAYLLSgie4QBc1GS82INlTwzZ4Pedy.NvTgIl6PC', 'offline', 0, '8475960e39b842df52b7b458c9fe91b33e7.jpg', 'Male', 'Rwanda', '0', 0, '$2y$10$qDrf70SS5Y/V6dHbMtNU8u7s5F.SVaDeWHSOs.JS3gG8MPK4joGSa', '20-04-03', '20-04-08', 'Student'),
-(9, 'sezerano', 'fent', 'FentUser', 'fentUser@gmail.com', '$2y$10$E0rf0FHTLHdR2PJ9zyvfqu8vEd1/qDiYJi9u5t7DckCGuocjvq/Qy', 'active', 0, '915960e39b842df52b7b458c9fe91b33e7.jpg', 'Male', 'Kenya', '0', 1, '$2y$10$ZBwPZsjGQAtYefdPFsrjTOZXk5Ew9CLk8cCXX8Z2ofQ0m26b.9D7W', '20-04-03', '20-05-18', 'Student'),
+(9, 'sezerano', 'fent', 'FentUser', 'fentUser@gmail.com', '$2y$10$E0rf0FHTLHdR2PJ9zyvfqu8vEd1/qDiYJi9u5t7DckCGuocjvq/Qy', 'offline', 0, '915960e39b842df52b7b458c9fe91b33e7.jpg', 'Male', 'Kenya', '0', 1, '$2y$10$ZBwPZsjGQAtYefdPFsrjTOZXk5Ew9CLk8cCXX8Z2ofQ0m26b.9D7W', '20-04-03', '20-05-26', 'Student'),
 (10, 'antoin', 'chris', 'khakid3', 'khalid3@gmail.com', '$2y$10$LNwbEApaSbcd7Jt6HOjCtuILK92JIgP/3r8ZYqX/r8IKAXePQn96y', 'offline', 0, 'avatar1.jpg', 'Male', 'Rwanda', '1', 0, '$2y$10$y5RFTlOXF1uzVC0N97zb/eEYV5gC/OksPiFaIuHcnj9rxq6Ug5wIu', '20-04-03', '', 'Student'),
-(11, 'sezerano', 'chris', 'chrisLon', 'lon@gmail.com', '$2y$10$Lz6wf5CEvPx99eIxj8IKMOw.y4aMFhwDrutGvPcpCz47CcdqdosxO', 'offline', 0, 'avatar1.jpg', 'Male', 'Kenya', '1', 0, '$2y$10$aT8ETMEAUwQ0w3AEo2la3uXyL9H3IXZLLC.7L01ai/Tc3YVCBjoIW', '20-04-08', '20-04-15', 'Student'),
+(11, 'sezerano', 'chris', 'chrisLon', 'lon@gmail.com', '$2y$10$Lz6wf5CEvPx99eIxj8IKMOw.y4aMFhwDrutGvPcpCz47CcdqdosxO', 'offline', 0, 'avatar1.jpg', 'Male', 'Kenya', '1', 0, '$2y$10$aT8ETMEAUwQ0w3AEo2la3uXyL9H3IXZLLC.7L01ai/Tc3YVCBjoIW', '20-04-08', '20-05-26', 'Student'),
 (12, 'baby', 'babys', 'chrisLon1', 'lon1@gmail.com', '$2y$10$cZaTCAQmubaH.ApG8uKEHeEbCXtpk6SvbVbegoVkXRLgQKNMTQS2O', 'offline', 0, 'avatar2.jpg', 'Male', 'Rwanda', '1', 0, '$2y$10$kfedgQp.6WUi5b2egYvIdugKgMEqF9.etOdMXlMgdH8kmcyXdmnFm', '20-04-08', '20-04-09', 'Student'),
 (13, 'delly', 'jean', 'khakid323', 'kkkkk@gmail.com', '$2y$10$JLiR5qzxPweF2R3diY8y6euUToVA2xWnAmbVZ/cs69sjeeHt6Eqxy', 'offline', 0, 'avatar3.jpg', 'Male', 'Kenya', '1', 0, '$2y$10$xZLzAG0pnv22naXaJfybreq8LpZtct8K/c9Ozn1EeD0t1c0IHf9.e', '20-04-15', '', 'Student'),
 (14, 'antoin', 'jean ', 'antonio12', 'antonio12@gmail.com', '$2y$10$0QCFV2tV0HSp5iiAYdyW6e1HjphIa5CpAi1KPDWsWXajlI71neYqS', 'offline', 0, 'avatar4.jpg', 'Female', 'Rwanda', '1', 0, '$2y$10$jhAWstQYSgw5hvRlGbaf7eO3l8aAm9wq0m3iF4HZaiZ4yAl/0c8p6', '20-04-15', '20-04-29', 'Teacher'),
-(15, 'jean', 'dellu', 'dellu', 'dellu@gmail.com', '$2y$10$huoWHAKkijqJKZ46lwEB2OYAt0jbhwIdk1MntZVvRVC1LhfneJnRy', 'active', 0, 'avatar4.jpg', 'Female', 'Kenya', '1', 0, '$2y$10$rSeApGZEBRGsZLlB1Np2e.80F7NJVtbVK1dfSeHBMKF1IAZgRm6FO', '20-05-18', '', 'Teacher');
+(15, 'jean', 'dellu', 'dellu', 'dellu@gmail.com', '$2y$10$huoWHAKkijqJKZ46lwEB2OYAt0jbhwIdk1MntZVvRVC1LhfneJnRy', 'active', 0, 'avatar4.jpg', 'Female', 'Kenya', '1', 0, '$2y$10$rSeApGZEBRGsZLlB1Np2e.80F7NJVtbVK1dfSeHBMKF1IAZgRm6FO', '20-05-18', '20-05-26', 'Teacher'),
+(16, 'tears', 'jean ', 'jean32', 'jean32@gmail.com', '$2y$10$fIxprnEL4deC.sggohQUzeG/F3LMQ5X8qAETtIs.YEsum/.yLs7b.', 'offline', 0, 'avatar5.jpg', 'Male', 'Kenya', '1', 0, '$2y$10$ihp3glrxpksIf4VEyI6KYO3/K91VOtaoA7fEUrk7BEfzP96dR8Hbu', '20-05-21', '20-05-21', 'Teacher'),
+(17, 'sezerano', 'chrisostom', 'userone', 'sezeranochrisostom@gmail.com', '$2y$10$3wMiODVCa0IL82Bwq7Dz2.SbFBtK72pdB9iO.JwRni4EzIxgdhTGy', 'offline', 0, 'avatar2.jpg', 'Male', 'Rwanda', '1', 0, '$2y$10$LmDN19kypAZXzgRvjS5DheMrg/U.3alVanWCMyY//Dj.mpCB3se2O', '20-05-25', '20-05-26', 'Teacher');
 
 --
 -- Indexes for dumped tables
@@ -200,14 +222,7 @@ ALTER TABLE `class`
 -- Indexes for table `classlike`
 --
 ALTER TABLE `classlike`
-  ADD PRIMARY KEY (`likeId`),
-  ADD KEY `classID` (`classID`);
-
---
--- Indexes for table `classtracks`
---
-ALTER TABLE `classtracks`
-  ADD PRIMARY KEY (`trackId`),
+  ADD PRIMARY KEY (`likeid`),
   ADD KEY `classID` (`classID`),
   ADD KEY `userId` (`userId`);
 
@@ -217,6 +232,14 @@ ALTER TABLE `classtracks`
 ALTER TABLE `course`
   ADD PRIMARY KEY (`courseId`),
   ADD KEY `classID` (`classID`);
+
+--
+-- Indexes for table `coursetracks`
+--
+ALTER TABLE `coursetracks`
+  ADD PRIMARY KEY (`trckid`),
+  ADD KEY `userId` (`userId`),
+  ADD KEY `courseId` (`courseId`);
 
 --
 -- Indexes for table `postcollaction`
@@ -253,19 +276,25 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `class`
 --
 ALTER TABLE `class`
-  MODIFY `classID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `classID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
--- AUTO_INCREMENT for table `classtracks`
+-- AUTO_INCREMENT for table `classlike`
 --
-ALTER TABLE `classtracks`
-  MODIFY `trackId` int(11) NOT NULL AUTO_INCREMENT;
+ALTER TABLE `classlike`
+  MODIFY `likeid` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `course`
 --
 ALTER TABLE `course`
-  MODIFY `courseId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `courseId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+
+--
+-- AUTO_INCREMENT for table `coursetracks`
+--
+ALTER TABLE `coursetracks`
+  MODIFY `trckid` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `postcollaction`
@@ -289,7 +318,7 @@ ALTER TABLE `topics`
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `userId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
+  MODIFY `userId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
 
 --
 -- Constraints for dumped tables
@@ -305,20 +334,21 @@ ALTER TABLE `class`
 -- Constraints for table `classlike`
 --
 ALTER TABLE `classlike`
-  ADD CONSTRAINT `classlike_ibfk_1` FOREIGN KEY (`classID`) REFERENCES `class` (`classID`);
-
---
--- Constraints for table `classtracks`
---
-ALTER TABLE `classtracks`
-  ADD CONSTRAINT `classtracks_ibfk_1` FOREIGN KEY (`classID`) REFERENCES `class` (`classID`),
-  ADD CONSTRAINT `classtracks_ibfk_2` FOREIGN KEY (`userId`) REFERENCES `class` (`userId`);
+  ADD CONSTRAINT `classlike_ibfk_1` FOREIGN KEY (`classID`) REFERENCES `class` (`classID`),
+  ADD CONSTRAINT `classlike_ibfk_2` FOREIGN KEY (`userId`) REFERENCES `users` (`userId`);
 
 --
 -- Constraints for table `course`
 --
 ALTER TABLE `course`
   ADD CONSTRAINT `course_ibfk_1` FOREIGN KEY (`classID`) REFERENCES `class` (`classID`);
+
+--
+-- Constraints for table `coursetracks`
+--
+ALTER TABLE `coursetracks`
+  ADD CONSTRAINT `coursetracks_ibfk_1` FOREIGN KEY (`userId`) REFERENCES `users` (`userId`),
+  ADD CONSTRAINT `coursetracks_ibfk_2` FOREIGN KEY (`courseId`) REFERENCES `course` (`courseId`);
 
 --
 -- Constraints for table `postcollaction`

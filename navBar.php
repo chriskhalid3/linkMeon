@@ -112,7 +112,7 @@ cursor:pointer;
 <!-- navigation  -->
 <nav class="navbars navbars-expand-sm sticky-top" >
   <div class="logo">
-    <h4><a style="color: #4bacca;text-transform:uppercase; text-decoration:none;" href="index.php"> LinkOn </a></h4>
+    <h4><a style="color: #4bacca;text-transform:uppercase; text-decoration:none;" href="index.php"> Lin<i class="fas fa-home text-info" ></i>on </a></h4>
   </div>
   <ul class="navbars-nav">
 

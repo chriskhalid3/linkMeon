@@ -20,15 +20,20 @@
          
       
     <div class="mt-2">
-          <div class="d-flex text-center col-12 overflow-scroll ">
-                <span id="class"> Class  <i class="fas fa-book text-info " ></i> </span>
+          <div class="d-flex text-center col-12 overflow-scroll m-3 ">
+ 
+                <?php  if($_SESSION['userType'] == 'Teacher' ){ ?>
+                <span id="class"> Class  <i class="fas fa-pen text-info" ></i> </span>
+                        <?php }else{?>
+                <span id="class" > take  <i class="fas fa-book text-info" ></i> </span>
+                        <?php }?>
                 <span id="friend"> Friend<i class="fas fa-user text-info ml-1" ></i></span>
-                <span id="add-course">join class <i class="fas fa-plus text-info " ></i></span>
+                <span id="add-course">join <i class="fas fa-plus text-info" ></i></span>
                 <span id="chat">Chat<i class="fas fa-snowflake  text-info ml-1" ></i></span>
+           
           </div>
       <div class="overflow-x-true" id="page-leader">
-    
-      
+         
        
     </div>
     </div>
@@ -37,10 +42,10 @@
 <!-- end of lefte side -->
 <!-- post side -->
 <div class="d-sm-flex  ">
-  <div class="col-xs-4 col-sm-12 col-md-8 col-lg-6  mt-3 p-2 overflow-y-true">
+  <div class="col-xs-12 col-sm-12 col-md-8 col-lg-9  mt-3 p-2 overflow-y-true">
       
   
-    <div class="card">
+        <div class="card">
     
                             <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
                                 <div class="ml-3 d-flex  font-weight-bold text-primary">
@@ -72,7 +77,7 @@
                               <img class="img-fluid m-0"  src="imag/discover.jpg" alt="">
                             </div>
                           <div class="p-1 mt-2">
-                              <form class="d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 navbar-search">
+                              <form class="d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 col-12">
                                   <div class="input-group">
                                     <input type="text" class="form-control bg-light border-0 small" placeholder="comment on..." aria-label="Search" aria-describedby="basic-addon2">
                                     <div class="input-group-append">
@@ -132,7 +137,7 @@
                         <img class="img-fluid m-0"  src="imag/retro.jpg" alt="">
                       </div>
                     <div class="p-1 mt-2">
-                        <form class="d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search">
+                        <form class="d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 col-12">
                             <div class="input-group">
                               <input type="text" class="form-control bg-light border-0 small" placeholder="comment on..." aria-label="Search" aria-describedby="basic-addon2">
                               <div class="input-group-append">
@@ -197,7 +202,7 @@
           <!-- end of suggestion side -->
 
      <!-- friends -->
-<div id="sale-chat" class="col-lg-3 mt-3 ml-1 shadow">
+<div id="sale-chat" class="col-lg-3 mt-3 ml-1 shadow d-none">
         <div class="row">
           <div class="col-lg-12 p-0">
               <a class="dropdown-item d-flex align-items-center" href="#">
