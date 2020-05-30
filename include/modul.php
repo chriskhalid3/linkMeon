@@ -708,7 +708,7 @@ public function classcreated($id){
 public function addCourse($courseName,$comment,$description,$instruction,$goal){
    if(!empty($courseName) && !empty($comment) && !empty($description) && !empty($instruction) && !empty($goal)){
 
-      $sql  = "SELECT concat(mid(class.datecreated,1,2),'/#',mid(class.datecreated,7,8),'/^',mid(users.username,1,5),'/^',class.classname) as courseCode ,class.classID from class  join users using(userId) where userId = :classOwner";
+      $sql  = "SELECT concat(mid(class.datecreated,1,2),'',mid(class.datecreated,7,8),'^',mid(users.username,1,5),'^',class.classname) as courseCode ,class.classID from class  join users using(userId) where userId = :classOwner";
       $stmt = $this->conn->prepare($sql);
       $stmt->execute([':classOwner' => $_SESSION['userId']]);
       $row  = $stmt->fetch();
@@ -1017,6 +1017,8 @@ public function classPresenter(){
 }
 
 public function joincourse(){
+
+   $sql = 'SELECT * from coursetracks';
 
 }
 

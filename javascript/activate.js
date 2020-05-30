@@ -188,7 +188,7 @@ if(AddCourse !== null){
      course.style.color = '';
 
      $.ajax({
-         url:'include/find_course.php',
+         url:'include/join_course.php',
          method:'POST',
          data:{
              allCourse: 1
@@ -275,4 +275,7 @@ const pushCourse = () => {
     
 }
 pushCourse();
-
+var myUrlTest = "http://localhost/linkOn/index.php?course=2018^dellu^mental%20health06523024#^#%";
+var store     =  new URL(myUrlTest);
+var course    =  store.searchParams.get("course");
+console.log(course); 
