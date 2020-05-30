@@ -22,7 +22,7 @@ if(isset($_POST['war']) && isset($_SESSION['userId'])){
        <div class="col mr-2">
           <div class="row no-gutters align-items-center">
            <div class="col-auto">
-             <div class=" mb-0 mr-3 font-weight-bold text-default" ><i class="text-gray-200 " >Make new course by clicking on your profile pricture and again on profile and click on class, fill all fields and start to make new courses and also to share your knowledge </i></div>
+             <div class=" mb-0 mr-3 font-weight-bold text-default" ><span class="text-gray-200 " > <span class="fa-1x" >"</span> Make new course by clicking on your profile pricture and again on profile and click on class, fill all fields and start to make new courses and also to share your knowledge <span class="fa-1x" >"</span> </span></div>
            </div>           
          </div>
        </div>

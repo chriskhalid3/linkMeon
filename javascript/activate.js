@@ -120,9 +120,12 @@ if(Newcourse !== null){
        
     });
 }
-document.addEventListener('DOMContentLoaded',()=>{  
-    editInfo.style.color = 'rgb(13, 130, 226)';
-});
+if(editInfo !== null){
+    document.addEventListener('DOMContentLoaded',()=>{  
+        editInfo.style.color = 'rgb(13, 130, 226)';
+    });
+    
+}
 
 }
 pushMeUp();
@@ -275,7 +278,9 @@ const pushCourse = () => {
     
 }
 pushCourse();
-var myUrlTest = "http://localhost/linkOn/index.php?course=2018^dellu^mental%20health06523024#^#%";
+var myUrlTest = "http://localhost/linkOn/index.php?course=20^18^dellu^mental%20health12_2840985%";
 var store     =  new URL(myUrlTest);
 var course    =  store.searchParams.get("course");
 console.log(course); 
+var courecode = document.getElementById('my_course_en');
+courecode.innerHTML = course;

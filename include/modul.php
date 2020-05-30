@@ -706,26 +706,31 @@ public function classcreated($id){
 //require more validation 
 
 public function addCourse($courseName,$comment,$description,$instruction,$goal){
-   if(!empty($courseName) && !empty($comment) && !empty($description) && !empty($instruction) && !empty($goal)){
+   $commentTrimed = trim($comment);
+   $descriptionTrimed = trim($description);
+   $insrtuctionTrimed = trim($instruction);
+   $goalTrimed = trim($goal);
+   $courseNameTrimed = trim($courseName);
+   if(!empty($courseNameTrimed) && !empty($commentTrimed) && !empty($descriptionTrimed) && !empty($insrtuctionTrimed) && !empty($goalTrimed)){
 
-      $sql  = "SELECT concat(mid(class.datecreated,1,2),'',mid(class.datecreated,7,8),'^',mid(users.username,1,5),'^',class.classname) as courseCode ,class.classID from class  join users using(userId) where userId = :classOwner";
+      $sql  = "SELECT concat(mid(class.datecreated,1,2),'^',mid(class.datecreated,7,8),'^',mid(users.username,1,5),'^',class.classname) as courseCode ,class.classID from class  join users using(userId) where userId = :classOwner";
       $stmt = $this->conn->prepare($sql);
       $stmt->execute([':classOwner' => $_SESSION['userId']]);
       $row  = $stmt->fetch();
-      $date = date("h/i"); 
+      $date = date("h_i"); 
       $randme = rand(1,4);
-      $code ='&%3';
+      $code ='%3';
       if($randme = 1){
-         $code = '#^#%';
+         $code = '5%';
       }
       elseif($randme = 2){
-         $code = '%^#%';
+         $code = '4%';
       }
       elseif($randme = 3){
-         $code = '%^#%';
+         $code = '2%';
       }
       else{
-         $code = '^#^#';
+         $code = '6%';
       }
       $rand = rand(1,5000);
       $fullConcat = $row['courseCode'].$date.$rand.$code;
@@ -908,10 +913,10 @@ public function coursePresenterIndex(){
        <div class="card-body">
          <div class="row no-gutters align-items-center">
            <div class="col mr-2">
-             <div class="text-xs font-weight-bold text-info text-uppercase mb-1">'. $rows['courseName'] .'</div>
+             <div class="text-xs font-weight-bold text-info text-uppercase mb-1" id="my_course_en" >'. $rows['courseName'] .'</div>
              <div class="row no-gutters align-items-center">
                <div class="col-auto">
-                 <div class=" mb-0 mr-3 font-weight-bold text-info"><a class="text-info" href="index.php?course='.$rows['courseCode'].'">Teach</a></div>
+                 <div class=" mb-0 mr-3 font-weight-bold text-info"><a  class="text-info" href="index.php?course='.$rows['courseCode'].'">Teach</a></div>
                </div>
                <div class="col">
                  <div class="mr-2">
@@ -962,7 +967,7 @@ public function courseFollowed(){
             <div class="text-xs font-weight-bold text-info text-uppercase mb-1">'.$rowTracks['courseName'].'</div>
             <div class="row no-gutters align-items-center">
               <div class="col-auto">
-                <div class=" mb-0 mr-3 font-weight-bold text-info"><a class="text-info" href="?course='.$rowTracks['courseCode'].'">Enroll</a></div>
+                <div class=" mb-0 mr-3 font-weight-bold text-info" id="my_course_en" ><a class="text-info" href="?course='.$rowTracks['courseCode'].'">Enroll</a></div>
               </div>
               <div class="col">
                 <div class="mr-2">
@@ -992,7 +997,7 @@ public function courseFollowed(){
             <div class="col mr-2">              
               <div class="row no-gutters align-items-center">
                 <div class="col-auto">
-                  <div class=" mb-0 mr-3 font-weight-bold text-default" ><i class="text-gray-200 " >You need to join some courses so that you can attend one  </i></div>
+                  <div class=" mb-0 mr-3 font-weight-bold text-default" ><span class="text-gray-200 " ><span class="fa-1x">"</span> You need to join some courses so that you can attend one <span class="fa-1x">"</span>  </span></div>
                 </div>
                 
               </div>
