@@ -194,7 +194,7 @@ if(AddCourse !== null){
          url:'include/join_course.php',
          method:'POST',
          data:{
-             allCourse: 1
+             allCourse: 5
          },
          success:(data)=>{
           pageleader.innerHTML = data; 
@@ -278,9 +278,25 @@ const pushCourse = () => {
     
 }
 pushCourse();
-var myUrlTest = "http://localhost/linkOn/index.php?course=20^18^dellu^mental%20health12_2840985%";
-var store     =  new URL(myUrlTest);
-var course    =  store.searchParams.get("course");
-console.log(course); 
-var courecode = document.getElementById('my_course_en');
-courecode.innerHTML = course;
+
+// const enrollCourse = () =>{
+ 
+    
+    
+    
+// }
+// enrollCourse();
+document.addEventListener('DOMContentLoaded',()=>{
+    var myUrlTest =  window.location.href;
+    var store     =  new URL(myUrlTest);
+    var course    =  store.searchParams.get("course");
+  
+    
+    if(course !== null && course !== '' ){
+            console.log(course) 
+    }else{
+        console.log(myUrlTest);
+    }
+})
+
+

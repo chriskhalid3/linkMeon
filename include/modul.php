@@ -713,7 +713,7 @@ public function addCourse($courseName,$comment,$description,$instruction,$goal){
    $courseNameTrimed = trim($courseName);
    if(!empty($courseNameTrimed) && !empty($commentTrimed) && !empty($descriptionTrimed) && !empty($insrtuctionTrimed) && !empty($goalTrimed)){
 
-      $sql  = "SELECT concat(mid(class.datecreated,1,2),'^',mid(class.datecreated,7,8),'^',mid(users.username,1,5),'^',class.classname) as courseCode ,class.classID from class  join users using(userId) where userId = :classOwner";
+      $sql  = "SELECT concat(mid(class.datecreated,1,2),'_',mid(class.datecreated,7,8),'_',mid(users.username,1,5),'_',class.classname) as courseCode ,class.classID from class  join users using(userId) where userId = :classOwner";
       $stmt = $this->conn->prepare($sql);
       $stmt->execute([':classOwner' => $_SESSION['userId']]);
       $row  = $stmt->fetch();
@@ -800,7 +800,7 @@ public function coursePresenter(){
              <div class="text-xs font-weight-bold text-info text-uppercase mb-1">'. $rows['courseName'] .'</div>
              <div class="row no-gutters align-items-center">
                <div class="col-auto">
-                 <div class=" mb-0 mr-3 font-weight-bold text-info"><a class="text-info" href="index.php?course='.$rows['courseCode'].'">Teach</a></div>
+                 <div class=" mb-0 mr-3 font-weight-bold text-info"><a class="text-info" id="my_course_en1k"  href="index.php?course='.$rows['courseCode'].'">Teach</a></div>
                </div>
                <div class="col">
                  <div class="mr-2">
@@ -913,10 +913,10 @@ public function coursePresenterIndex(){
        <div class="card-body">
          <div class="row no-gutters align-items-center">
            <div class="col mr-2">
-             <div class="text-xs font-weight-bold text-info text-uppercase mb-1" id="my_course_en" >'. $rows['courseName'] .'</div>
+             <div class="text-xs font-weight-bold text-info text-uppercase mb-1" >'. $rows['courseName'] .'</div>
              <div class="row no-gutters align-items-center">
                <div class="col-auto">
-                 <div class=" mb-0 mr-3 font-weight-bold text-info"><a  class="text-info" href="index.php?course='.$rows['courseCode'].'">Teach</a></div>
+                 <div class=" mb-0 mr-3 font-weight-bold text-info" id="my_course_en1k"  ><a class="text-info" href="index.php?course='.$rows['courseCode'].'">Teach</a></div>
                </div>
                <div class="col">
                  <div class="mr-2">
@@ -967,7 +967,7 @@ public function courseFollowed(){
             <div class="text-xs font-weight-bold text-info text-uppercase mb-1">'.$rowTracks['courseName'].'</div>
             <div class="row no-gutters align-items-center">
               <div class="col-auto">
-                <div class=" mb-0 mr-3 font-weight-bold text-info" id="my_course_en" ><a class="text-info" href="?course='.$rowTracks['courseCode'].'">Enroll</a></div>
+                <div class=" mb-0 mr-3 font-weight-bold text-info" id="my_course_en1k" ><a class="text-info" href="?course='.$rowTracks['courseCode'].'&&action=enroll">Enroll</a></div>
               </div>
               <div class="col">
                 <div class="mr-2">
@@ -1021,13 +1021,90 @@ public function classPresenter(){
 
 }
 
-public function joincourse(){
+public function joincourse($reLoadN){
 
-   $sql = 'SELECT * from coursetracks';
+  
+
+   $sql  = 'SELECT course.*,class.userId from coursetracks join course using(courseId) join class using(classId) where coursetracks.userid != :userid and class.userid != :userid  and deleteStatus = 0 LIMIT '.$reLoadN.' ';
+   $stmt = $this->conn->prepare($sql);
+   $stmt->execute([':userid'=>$_SESSION['userId']]);
+   $exist = $stmt->rowCount();
+   if(!$exist){
+
+     echo'
+      <div class="col-6 mt-3  col-sm-6 col-md-12 col-lg-12 mb-4">
+      <div class="card border-left-info shadow h-100 py-2">
+        <div class="card-body">
+          <div class="row no-gutters align-items-center">
+            <div class="col mr-2">
+              <div class="text-xs font-weight-bold text-info text-uppercase mb-1">No content yet</div>
+              <div class="row no-gutters align-items-center">
+                               
+              </div>
+             </div>
+            <div class="col-auto">
+              <i class="fas fa-info-circle fa-2x text-gray-300"></i>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+      ';
+
+   }  else{
+$row =$stmt->fetchAll();
+echo'
+<div class="col-6 mt-3  col-sm-6 col-md-12 col-lg-12 mb-4">
+<div class="card border-left-warning shadow h-100 py-2">
+  <div class="card-body">
+    <div class="row no-gutters align-items-center">
+      <div class="col mr-2">
+        <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">Recommended for you </div>
+        <div class="row no-gutters align-items-center">
+                         
+        </div>
+       </div>
+      
+    </div>
+  </div>
+</div>
+</div>
+';
+foreach($row as $rows){
+  echo'
+     
+  <div class="col-6 mt-3  col-sm-6 col-md-12 col-lg-12 mb-4"">
+  <div class="card border-left-info shadow h-100 py-2">
+    <div class="card-body">
+      <div class="row no-gutters align-items-center">
+        <div class="col mr-2">
+          <div class="text-xs font-weight-bold text-info text-uppercase mb-1">'. $rows['courseName'] .'</div>
+          <div class="row no-gutters align-items-center">
+            <div class="col-auto">
+              <div class=" mb-0 mr-3 font-weight-bold text-info"><a class="text-info" id="my_course_en1k"  href="index.php?course='.$rows['courseCode'].'">Teach</a></div>
+            </div>
+            <div class="col">
+              <div class="mr-2">
+                <div class="text-xs" >classmates <p class="text-info d-inline">'.$classmate.'</p> </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-auto">
+          <span class=" fa-2x   text-info text-uppercase">'.$rows['short'].'</span>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+      </div>
+  ';
+        }
+     
+   }
 
 }
-
-
 }
+
 
 ?>

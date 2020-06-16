@@ -50,8 +50,8 @@
                             <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
                                 <div class="ml-3 d-flex  font-weight-bold text-primary">
                                     <div class=" card-img-header post ">
-                                        <img class="img-profile  rounded-circle" src="imag/avatar1.jpg">
-                                        <span class=" d-lg-inline text-gray-600 small">Valerie Luna
+                                        <img  class="img-profile  rounded-circle" src="imag/avatar1.jpg">
+                                        <span id="img_profile" class=" d-lg-inline text-gray-600 small">Valerie Luna
                                       
                                         </span>
                                     </div>
